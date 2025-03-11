@@ -38,16 +38,10 @@ fn generate_merkle_tree<T: ToString + Clone>(data: &[T]) -> Vec<Vec<String>> {
     }
 
     merkle_tree
-
-    // for (level, hashes) in merkle_tree.iter().enumerate() {
-    //     println!("Level {}: {:?}", level, hashes);
-    // }
 }
 
 fn main() {
     let data = vec![1, 2, 3, 4, 5];
-    // let res = data_to_hashed_array(&data);
-    // println!("{:#?}", res);
 
     generate_merkle_tree(&data);
 }
