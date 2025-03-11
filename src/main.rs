@@ -18,7 +18,6 @@ fn generate_merkle_tree<T: ToString + Clone>(data: &[T]) -> Vec<Vec<String>> {
     while data_length > 1 {
         if data_length % 2 == 1 {
             hashed_data.push(hashed_data.last().unwrap().to_string());
-            merkle_tree.push(hashed_data.clone());
         }
 
         let mut next_layer: Vec<String> = vec![];
@@ -28,9 +27,10 @@ fn generate_merkle_tree<T: ToString + Clone>(data: &[T]) -> Vec<Vec<String>> {
             next_layer.push(combined_hash);
         }
 
+        merkle_tree.push(hashed_data.clone());
         hashed_data = next_layer.clone();
 
-        if next_layer.len() % 2 == 0 || next_layer.len() == 1 {
+        if next_layer.len() == 1 {
             merkle_tree.push(next_layer);
         }
 
@@ -41,7 +41,8 @@ fn generate_merkle_tree<T: ToString + Clone>(data: &[T]) -> Vec<Vec<String>> {
 }
 
 fn main() {
-    let data = vec![1, 2, 3, 4, 5];
+    let data = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    generate_merkle_tree(&data);
+    let merkle_tree = generate_merkle_tree(&data);
+    println!("{:#?}", merkle_tree);
 }
