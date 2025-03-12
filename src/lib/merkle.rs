@@ -1,6 +1,12 @@
 use itertools::Itertools;
 use sha256::digest;
 
+/// todos:
+/// 1 . handle errors
+/// 2 . handle command using match expression
+/// 3 . store merkle tree/root to file in pc
+/// 3 . generate merkle proof logic and use merkle root data from file
+
 fn hasher<T: ToString>(data: T) -> String {
     let data_to_string = data.to_string();
     digest(data_to_string)

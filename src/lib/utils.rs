@@ -2,6 +2,9 @@ use std::fs;
 use std::path::Path;
 use std::{error::Error, process};
 
+/// todos:
+/// 1 . handle errors
+
 pub struct Config {
     pub command: String,
     pub file_path: String,
