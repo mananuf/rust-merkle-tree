@@ -1,6 +1,6 @@
-use std::{error::Error, process};
-use std::path::Path;
 use std::fs;
+use std::path::Path;
+use std::{error::Error, process};
 
 pub struct Config {
     pub command: String,
@@ -11,7 +11,7 @@ impl Config {
     fn new(args: &[String]) -> Self {
         Self {
             command: args[1].clone(),
-            file_path: args[2].clone()
+            file_path: args[2].clone(),
         }
     }
 }
@@ -30,9 +30,6 @@ pub fn csv_reader<P: AsRef<Path>>(filename: P) -> Result<Vec<String>, Box<dyn Er
         let record = result?;
         let record_to_string = record.iter().collect::<Vec<&str>>().join(",");
         data.push(record_to_string);
-        
-        // println!("{record_to_string}");
-        // println!("{:?}", record);
     }
 
     Ok(data)

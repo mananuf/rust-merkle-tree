@@ -40,6 +40,6 @@ pub fn generate_merkle_tree<T: ToString + Clone>(data: &[T]) -> Vec<Vec<String>>
     merkle_tree
 }
 
-pub fn get_merkle_root(tree: &Vec<Vec<String>>) -> String{
+pub fn get_merkle_root(tree: &Vec<Vec<String>>) -> String {
     tree.last().unwrap().last().unwrap().to_string()
 }

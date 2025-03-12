@@ -1,6 +1,5 @@
+use rust_merkle_tree::lib::{merkle, utils};
 use std::env;
-use rust_merkle_tree::lib::merkle;
-use rust_merkle_tree::lib::utils;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
