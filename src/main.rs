@@ -1,48 +1,23 @@
-use itertools::Itertools;
-use sha256::digest;
+use std::env;
+use std::fs;
 
-fn hasher<T: ToString>(data: T) -> String {
-    let data_to_string = data.to_string();
-    digest(data_to_string)
-}
-
-fn data_to_hashed_array<T: ToString + Clone>(data: &[T]) -> Vec<String> {
-    data.iter().map(|d| hasher((*d).clone())).collect()
-}
-
-fn generate_merkle_tree<T: ToString + Clone>(data: &[T]) -> Vec<Vec<String>> {
-    let mut hashed_data: Vec<String> = data_to_hashed_array(data);
-    let mut merkle_tree: Vec<Vec<String>> = vec![];
-    let mut data_length: usize = hashed_data.len();
-
-    while data_length > 1 {
-        if data_length % 2 == 1 {
-            hashed_data.push(hashed_data.last().unwrap().to_string());
-        }
-
-        let mut next_layer: Vec<String> = vec![];
-
-        for (current_hash, next_hash) in hashed_data.iter().tuple_windows().step_by(2) {
-            let combined_hash = hasher(current_hash.to_owned() + next_hash);
-            next_layer.push(combined_hash);
-        }
-
-        merkle_tree.push(hashed_data.clone());
-        hashed_data = next_layer.clone();
-
-        if next_layer.len() == 1 {
-            merkle_tree.push(next_layer);
-        }
-
-        data_length = hashed_data.len();
-    }
-
-    merkle_tree
-}
+pub mod merkle;
+pub mod lib;
 
 fn main() {
-    let data = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let args: Vec<String> = env::args().collect();
 
-    let merkle_tree = generate_merkle_tree(&data);
-    println!("{:#?}", merkle_tree);
+    let config = lib::parse_config(&args);
+
+    run(config);
+    let data = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    let merkle_tree = merkle::generate_merkle_tree(&data);
+    // println!("{:#?}", get_merkle_root(&merkle_tree));
+    let res: String = merkle::get_merkle_root(&merkle_tree);
+    println!("{res}");
+}
+
+fn run(config: lib::Config) {
+    let content = fs::read_to_string(&config.file_path).expect("error reading file");
 }
