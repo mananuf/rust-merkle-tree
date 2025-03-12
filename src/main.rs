@@ -1,17 +1,16 @@
 use std::env;
-
-pub mod merkle;
-pub mod lib;
+use rust_merkle_tree::lib::merkle;
+use rust_merkle_tree::lib::utils;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let config = lib::parse_config(&args);
+    let config = utils::parse_config(&args);
 
     run(config);
 }
 
-fn run(config: lib::Config) {
-    let data = lib::csv_reader(&config.file_path);
+fn run(config: utils::Config) {
+    let data = utils::csv_reader(&config.file_path);
     let merkle_tree = merkle::generate_merkle_tree(&data.unwrap());
     println!("{:#?}", &merkle_tree);
 
